@@ -10,7 +10,7 @@
  *    http://www.opensource.org/licenses/mit-license.php
  */
 
-#include "Mux.h"
+#include "MuxModded.h"
 
 using namespace admux;
 
@@ -26,7 +26,7 @@ Mux::Mux(Pinset channelPins, int8_t enablePin) :
   }
 }
 
-Mux::Mux(Pin signalPin, Pinset channelPins, int8_t enablePin) :
+Mux::Mux(PinMux signalPin, Pinset channelPins, int8_t enablePin) :
     Mux::Mux(channelPins, enablePin) {
   Mux::signalPin(signalPin);
 }
@@ -69,7 +69,7 @@ int16_t Mux::read(int8_t channel) {
   }
 }
 
-int8_t Mux::signalPin(Pin value) {
+int8_t Mux::signalPin(PinMux value) {
   // Another pin already assigned to signal?
   /*
    * NOTE: The same mux can be physically connected to multiple (mutually-

@@ -10,8 +10,8 @@
  *    http://www.opensource.org/licenses/mit-license.php
  */
 
-#ifndef ADMUX_MUX_H
-#define ADMUX_MUX_H
+#ifndef ADMUX_MUXMODDED_H
+#define ADMUX_MUXMODDED_H
 
 #ifdef UNIT_TEST
   #include "ArduinoFake.h"
@@ -40,19 +40,19 @@ enum class PinType {
   Digital
 };
 
-typedef struct Pin {
+typedef struct PinMux {
   int8_t pin;
   uint8_t mode;
   PinType type;
 
-  Pin() :
-      Pin(UNDEFINED, OUTPUT, PinType::Digital) {
+  PinMux() :
+      PinMux(UNDEFINED, OUTPUT, PinType::Digital) {
   }
 
-  Pin(int8_t pin, uint8_t mode, PinType type) :
+  PinMux(int8_t pin, uint8_t mode, PinType type) :
       pin(pin), mode(mode), type(type) {
   }
-} Pin;
+} PinMux;
 
 typedef struct Pinset {
 // @formatter:off
@@ -130,7 +130,7 @@ public:
    * @param enablePin
    *      MCU pin to which the mux enable pin (EN) connects.
    */
-  Mux(Pin signalPin, Pinset channelPins, int8_t enablePin = UNDEFINED);
+  Mux(PinMux signalPin, Pinset channelPins, int8_t enablePin = UNDEFINED);
 
   /**
    * Current channel.
@@ -192,7 +192,7 @@ public:
    */
   int16_t read(int8_t channel = UNDEFINED);
 
-  Pin signalPin() {
+  PinMux signalPin() {
     return m_signalPin;
   }
 
@@ -203,7 +203,7 @@ public:
    *
    * @return ERROR_SUCCESS, if success.
    */
-  int8_t signalPin(Pin value);
+  int8_t signalPin(PinMux value);
 
   /**
    * As the same mux can be physically connected to multiple (mutually-
@@ -219,7 +219,7 @@ public:
    * @return ERROR_SUCCESS, if success.
    */
   int8_t signalPin(int8_t pin, uint8_t mode, PinType type) {
-    return signalPin(Pin(pin, mode, type));
+    return signalPin(PinMux(pin, mode, type));
   }
 
   /**
@@ -251,7 +251,7 @@ protected:
   Pinset m_channelPins;
   bool m_enabled = true;
   int8_t m_enablePin = UNDEFINED;
-  Pin m_signalPin;
+  PinMux m_signalPin;
 };
 
 }
